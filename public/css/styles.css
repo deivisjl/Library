@@ -1,0 +1,21 @@
+.navbar-primary{
+	background: #34495e!important;
+}
+
+.sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active, .sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
+    background: #34495e!important;
+    color: #ffffff;
+}
+
+.content-header {
+    padding: 0px 0 !important;
+}
+
+.badge-libreria {
+    color: #ffffff;
+    background-color: #34495e;
+}
+
+small, .small {
+    font-size: 60% !important;    
+}
