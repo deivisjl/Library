@@ -6,7 +6,8 @@
   <title>Librería | Iniciar sesión</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  
+  <link rel="stylesheet" href="{{ asset('css/app.css') }}">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">  
   <!-- Theme style -->
@@ -25,10 +26,9 @@
   <div class="card">
     <div class="card-body login-card-body">
       <p class="login-box-msg">Iniciar sesión</p>
-
       <form action="{{ route('login') }}" method="post">
           @csrf
-        <div class="input-group mb-3 is-invalid {{ $errors->has('email') ? ' is-invalid' : '' }}" >
+        <div class="input-group mb-3 {{ $errors->has('email') ? ' is-invalid' : '' }}" >
           <input type="email" name="email" class="form-control" placeholder="Correo electrónico">
           <div class="input-group-append">
             <div class="input-group-text">

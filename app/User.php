@@ -10,13 +10,19 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    const USUARIO_ADMINISTRADOR = 'ADMINISTRADOR';
+
+    const USUARIO_DIGITADOR = 'DIGITADOR';
+
+    const USUARIO_VENDEDOR = 'VENDEDOR';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'nombres','apellidos','dpi','direccion', 'telefono','email', 'password','rol_id'
     ];
 
     /**
