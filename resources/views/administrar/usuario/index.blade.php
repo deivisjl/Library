@@ -24,6 +24,11 @@
       <div class="container-fluid">
           <div class="card">
               <div class="card-body">
+                <div class="row">
+                  <div class="col-md-12">
+                    <a href="{{ route('usuarios.create') }}" class="btn btn-primary btn-sm" style="float:right; color:#fff">Nuevo registro</a>
+                  </div>
+                </div>
                  <table id="listar" class="table table-striped table-bordered table-hover">
                       <thead>
                         <tr>
@@ -78,7 +83,15 @@
     }
 
     var obtener_data_editar = function(tbody,table){
+         $(tbody).on("click","a.editar",function(e){
+          e.preventDefault();
+        var data = table.row($(this).parents("tr")).data();
+        
+        var id = data.id;
 
-    }
+         window.location.href = "/usuarios/" + id + "/edit";
+
+      });
+      }
 </script>
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Administrar\Usuario;
 
+use App\Rol;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -26,7 +27,9 @@ class UsuarioController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Rol::all();
+
+        return view('administrar.usuario.create',['roles' => $roles]);
     }
 
     /**
@@ -37,7 +40,31 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+               'nombres' => 'required|string|max:100',
+               'apellidos' => 'required|string|max:100',
+               'dpi' => 'required|string|max:100',
+               'direccion' => 'required|string|max:100',
+               'telefono' => 'required|numeric|min:1',
+               'rol' => 'required|numeric|min:1',
+               'email' => 'required|string|email|max:255|unique:users',
+               'password' => 'required|string|min:5|confirmed',               
+            ];            
+
+        $this->validate($request, $rules);
+
+        $usuario = new User();
+        $usuario->nombres = $request->get('nombres');
+        $usuario->apellidos = $request->get('apellidos');
+        $usuario->dpi = $request->get('dpi');
+        $usuario->direccion = $request->get('direccion');
+        $usuario->telefono = $request->get('telefono');
+        $usuario->email = $request->get('email');
+        $usuario->password = bcrypt($request->get('password'));
+        $usuario->rol_id = $request->get('rol');
+        $usuario->save();        
+
+        return redirect('/usuarios');
     }
 
     /**
@@ -89,7 +116,9 @@ class UsuarioController extends Controller
      */
     public function edit(User $usuario)
     {
-        //
+        $roles = Rol::all();
+
+        return view('administrar.usuario.edit',['roles' => $roles,'usuario'=>$usuario]);
     }
 
     /**
@@ -101,7 +130,26 @@ class UsuarioController extends Controller
      */
     public function update(Request $request, User $usuario)
     {
-        //
+        $rules = [
+               'nombres' => 'required|string|max:100',
+               'apellidos' => 'required|string|max:100',
+               'dpi' => 'required|string|max:100',
+               'direccion' => 'required|string|max:100',
+               'telefono' => 'required|numeric|min:1',
+               'rol' => 'required|numeric|min:1',
+            ];            
+
+        $this->validate($request, $rules);
+        
+        $usuario->nombres = $request->get('nombres');
+        $usuario->apellidos = $request->get('apellidos');
+        $usuario->dpi = $request->get('dpi');
+        $usuario->direccion = $request->get('direccion');
+        $usuario->telefono = $request->get('telefono');        
+        $usuario->rol_id = $request->get('rol');
+        $usuario->save();        
+
+        return redirect('/usuarios');
     }
 
     /**
