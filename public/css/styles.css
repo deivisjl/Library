@@ -23,3 +23,7 @@ small, .small {
 .table th, .table td {
     padding: 7px!important;
 }
+
+.dropdown-footer, .dropdown-header {
+    text-align: right !important;
+}

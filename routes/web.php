@@ -11,8 +11,16 @@
 |
 */
 Auth::routes(['register' => false, 'reset' => false]);
+Route::get('/logout','Auth\LoginController@logout');
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('/usuarios','Administrar\Usuario\UsuarioController');
+Route::group(['middleware' => ['auth','admin']], function() {
+	
+	Route::resource('/usuarios','Administrar\Usuario\UsuarioController');
+});
+
+Route::group(['middleware' => ['auth','digitador']], function() {});
+
+Route::group(['middleware' => ['auth','vendedor']], function() {});

@@ -42,4 +42,27 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function rol()
+    {
+        return $this->belongsTo('App\Rol');
+    }
+
+     public function esAdministrador(){
+
+        return strtoupper($this->rol->nombre) == User::USUARIO_ADMINISTRADOR;
+        
+    }
+
+    public function esDigitador(){
+
+        return strtoupper($this->rol->nombre) == User::USUARIO_DIGITADOR;
+        
+    }
+
+    public function esVendedor(){
+
+        return strtoupper($this->rol->nombre) == User::USUARIO_VENDEDOR;
+        
+    }
 }

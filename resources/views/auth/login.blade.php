@@ -28,8 +28,8 @@
       <p class="login-box-msg">Iniciar sesión</p>
       <form action="{{ route('login') }}" method="post">
           @csrf
-        <div class="input-group mb-3 {{ $errors->has('email') ? ' is-invalid' : '' }}" >
-          <input type="email" name="email" class="form-control" placeholder="Correo electrónico">
+        <div class="input-group mb-3" >
+          <input type="email" name="email" class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="Correo electrónico" value="{{ old('email') }}">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -39,10 +39,10 @@
             <span class="invalid-feedback" role="alert">
                 <small>{{ $errors->first('email') }}</small>
             </span>
-        @endif
+          @endif
         </div>
-        <div class="input-group mb-3 {{ $errors->has('password') ? ' is-invalid' : '' }}">
-          <input type="password" name="password" class="form-control" placeholder="Contraseña">
+        <div class="input-group mb-3">
+          <input type="password" name="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Contraseña">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
