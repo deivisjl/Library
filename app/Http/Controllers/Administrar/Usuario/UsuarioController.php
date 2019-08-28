@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use HepplerDotNet\FlashToastr\Flash;
 
 class UsuarioController extends Controller
 {
@@ -62,7 +63,9 @@ class UsuarioController extends Controller
         $usuario->email = $request->get('email');
         $usuario->password = bcrypt($request->get('password'));
         $usuario->rol_id = $request->get('rol');
-        $usuario->save();        
+        $usuario->save();      
+
+        Flash::success('Mensaje','Registro guardado con éxito');  
 
         return redirect('/usuarios');
     }
@@ -149,6 +152,8 @@ class UsuarioController extends Controller
         $usuario->rol_id = $request->get('rol');
         $usuario->save();        
 
+        Flash::success('Mensaje','Registro guardado con éxito');
+        
         return redirect('/usuarios');
     }
 

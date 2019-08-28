@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "66ca7343889332c2b8ecca11c251430c",
+    "content-hash": "9d35ffd533936d8ee32bdcd329cb0c0f",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -566,6 +566,56 @@
                 "url"
             ],
             "time": "2019-07-01T23:21:34+00:00"
+        },
+        {
+            "name": "hepplerdotnet/flash-toastr",
+            "version": "5.6.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/HepplerDotNet/flash-toastr.git",
+                "reference": "f9e709af02057fdc3ff5913feeaf67f0112871e4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/HepplerDotNet/flash-toastr/zipball/f9e709af02057fdc3ff5913feeaf67f0112871e4",
+                "reference": "f9e709af02057fdc3ff5913feeaf67f0112871e4",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": ">=5.4.0",
+                "php": ">=5.6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "HepplerDotNet\\FlashToastr\\FlashServiceProvider"
+                    ],
+                    "aliases": {
+                        "Flash": "HepplerDotNet\\FlashToastr\\Flash"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "HepplerDotNet\\FlashToastr\\": "src/"
+                },
+                "files": [
+                    "src/Functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Patrick Heppler",
+                    "email": "patrick@heppler.net"
+                }
+            ],
+            "description": "Easy toastr.js flash notifications",
+            "time": "2018-10-23T07:17:28+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",

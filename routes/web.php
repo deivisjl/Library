@@ -19,6 +19,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => ['auth','admin']], function() {
 	
 	Route::resource('/usuarios','Administrar\Usuario\UsuarioController');
+
+	Route::resource('/proveedor','Administrar\Proveedor\ProveedorController');
 });
 
 Route::group(['middleware' => ['auth','digitador']], function() {});
