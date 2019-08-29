@@ -36,19 +36,19 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('proveedor.index') }}" class="nav-link active">
+                <a href="{{ route('categoria.index') }}" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Categoría</p>
+                  <p>Categoria</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('proveedor.index') }}" class="nav-link active">
+                <a href="{{ route('marca.index') }}" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Marca</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('proveedor.index') }}" class="nav-link active">
+                <a href="{{ route('producto.index') }}" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Producto</p>
                 </a>

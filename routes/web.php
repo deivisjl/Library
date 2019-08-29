@@ -21,6 +21,12 @@ Route::group(['middleware' => ['auth','admin']], function() {
 	Route::resource('/usuarios','Administrar\Usuario\UsuarioController');
 
 	Route::resource('/proveedor','Administrar\Proveedor\ProveedorController');
+
+	Route::resource('/categoria','Administrar\Categoria\CategoriaController');
+
+	Route::resource('/marca','Administrar\marca\MarcaController');
+
+	Route::resource('/producto','Administrar\producto\ProductoController');
 });
 
 Route::group(['middleware' => ['auth','digitador']], function() {});

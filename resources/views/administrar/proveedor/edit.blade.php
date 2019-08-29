@@ -77,7 +77,7 @@
                             </div>
                            
                             <div class="form-group">
-                                 <button type="submit" class="btn btn-primary" style="float: right;">Guardar</button>
+                                 <button type="submit" class="btn btn-success" style="float: right;">Editar</button>
                             </div>
                         </form>
                     </div>
