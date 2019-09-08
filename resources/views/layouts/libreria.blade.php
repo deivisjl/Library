@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"> -->
 
     <link rel="stylesheet" href="{{ asset('css/adminlte.css') }}">
 
@@ -26,6 +26,7 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 <body class="sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed control-sidebar-slide-open">
+<div id="app">
 <div class="wrapper">
 
   @include('layouts.includes.nav')
@@ -45,20 +46,21 @@
   </footer>
 </div>
 <!-- ./wrapper -->
+</div>
 
 <!-- jQuery -->
 <!-- Scripts -->
 
-<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-<!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
+<!-- <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script> -->
+<script src="{{ asset('js/app.js') }}"></script>
 <!-- jQuery UI 1.11.4 -->
-<script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+<!-- <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script> -->
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
-  $.widget.bridge('uibutton', $.ui.button);
+  // $.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Bootstrap 4 -->
-<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<!-- <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script> -->
 <!-- daterangepicker -->
 <script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
 <!-- Tempusdominus Bootstrap 4 -->
@@ -69,8 +71,8 @@
 <!-- overlayScrollbars -->
 <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
 
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<!-- <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script> -->
 <script src="{{ asset('js/application.js') }}"></script>
 
 @yield('js')

@@ -22,3 +22,11 @@ var idioma_spanish = {
           "sSortDescending": ": Activar para ordenar la columna de manera descendente"
       }
   }
+
+  const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    });

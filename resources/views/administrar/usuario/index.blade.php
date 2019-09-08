@@ -84,14 +84,47 @@
 
     var obtener_data_editar = function(tbody,table){
          $(tbody).on("click","a.editar",function(e){
-          e.preventDefault();
-        var data = table.row($(this).parents("tr")).data();
-        
-        var id = data.id;
+            e.preventDefault();
+          var data = table.row($(this).parents("tr")).data();
+          
+          var id = data.id;
 
-         window.location.href = "/usuarios/" + id + "/edit";
+           window.location.href = "/usuarios/" + id + "/edit";
 
-      });
+        });
+
+         $(tbody).on("click","a.borrar",function(e){
+            e.preventDefault();
+            var data = table.row($(this).parents("tr")).data();
+            
+            Swal.fire({
+                  title: '¿Está seguro de eliminar este registro?',
+                  //text: 'Confirmar',
+                  type: 'question',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Aceptar',
+                  cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                  if (result.value) {
+                    Swal.fire(
+                      'Deleted!',
+                      'Your imaginary file has been deleted.',
+                      'success'
+                    )
+                  // For more information about handling dismissals please visit
+                  // https://sweetalert2.github.io/#handling-dismissals
+                  } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    Swal.fire(
+                      'Cancelled',
+                      'Your imaginary file is safe :)',
+                      'error'
+                    )
+                  }
+                });
+
+          });
       }
 </script>
 @endsection

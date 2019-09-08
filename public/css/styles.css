@@ -27,3 +27,7 @@ small, .small {
 .dropdown-footer, .dropdown-header {
     text-align: right !important;
 }
+
+.swal2-popup {
+    font-size: 11px !important;
+}

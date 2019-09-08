@@ -7,11 +7,18 @@ window._ = require('lodash');
  * code may be modified to fit the specific needs of your application.
  */
 
-try {
-    window.Popper = require('popper.js').default;
-    window.$ = window.jQuery = require('jquery');
+ import Popper from 'popper.js/dist/popper.js';
 
+try {
+    //window.Popper = require('popper.js/dist/popper.js').default;
+    window.$ = window.jQuery = require('jquery');
+    window.Popper = Popper;
+
+    require('jquery/dist/jquery.min.js');
     require('bootstrap');
+    require('bootstrap/dist/js/bootstrap.bundle.min.js');
+    require('datatables.net-bs4' )( $ );
+
 } catch (e) {}
 
 /**
