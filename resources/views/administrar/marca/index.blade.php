@@ -65,7 +65,7 @@
           "columns":[
               {'data': 'id'},
               {'data': 'nombre'},   
-              {'defaultContent':'<a href="" class="editar badge bg-green"  data-toggle="tooltip" data-placement="top" title="Editar registro"><i class="fas fa-pencil-alt"></i> Editar</a> <a href="" class="borrar badge bg-danger"  data-toggle="tooltip" data-placement="top" title="Borrar registro"><i class="fas fa-trash-alt"></i> Eliminar</a>', "orderable":false}
+              {'defaultContent':'<a href="" class="editar badge bg-green"  data-toggle="tooltip" data-placement="top" title="Editar registro"><i class="fas fa-pencil-alt"></i> Editar</a> <a href="" class="borrar badge bg-danger"  data-toggle="tooltip" data-placement="top" title="Eliminar registro"><i class="fas fa-trash-alt"></i> Eliminar</a>', "orderable":false}
           ],
           "language": idioma_spanish,
 
@@ -78,13 +78,53 @@
     var obtener_data_editar = function(tbody,table){
          $(tbody).on("click","a.editar",function(e){
           e.preventDefault();
-        var data = table.row($(this).parents("tr")).data();
-        
-        var id = data.id;
+            var data = table.row($(this).parents("tr")).data();
+            
+            var id = data.id;
 
-         window.location.href = "/marca/" + id + "/edit";
+             window.location.href = "/marca/" + id + "/edit";
 
-      });
+          });
+
+         $(tbody).on("click","a.borrar",function(e){
+             e.preventDefault();
+            var data = table.row($(this).parents("tr")).data();
+            
+            var id = data.id;
+
+             Swal.fire({
+                  title: '¿Está seguro de eliminar este registro?',
+                  type: 'question',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Aceptar',
+                  cancelButtonText: 'Cancelar'
+                }).then((result) => {
+
+                   if (result.value) {
+                      axios.delete('/marca/'+id)
+                          .then(response => {
+
+                              Toastr.success(response.data.data,'Mensaje')
+                                $('#listar').DataTable().ajax.reload();
+                              
+                          })
+                          .catch(error => {
+                              if (error.response) {
+                                  Toastr.error(error.response.data.error,''); 
+                              }else{
+                                  Toastr.error('Ocurrió un error: ' + error,'Error');
+                              }
+                          });
+                   }
+                    
+                });
+
+             
+          });
+
+             
       }
 </script>
 @endsection

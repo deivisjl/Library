@@ -87,13 +87,51 @@
     var obtener_data_editar = function(tbody,table){
          $(tbody).on("click","a.editar",function(e){
           e.preventDefault();
-        var data = table.row($(this).parents("tr")).data();
-        
-        var id = data.id;
+            var data = table.row($(this).parents("tr")).data();
+            
+            var id = data.id;
 
-         window.location.href = "/producto/" + id + "/edit";
+             window.location.href = "/producto/" + id + "/edit";
 
-      });
+          });
+
+         $(tbody).on("click","a.borrar",function(e){
+             e.preventDefault();
+            var data = table.row($(this).parents("tr")).data();
+            
+            var id = data.id;
+
+             Swal.fire({
+                  title: '¿Está seguro de eliminar este registro?',
+                  type: 'question',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Aceptar',
+                  cancelButtonText: 'Cancelar'
+                }).then((result) => {
+
+                   if (result.value) {
+                      axios.delete('/producto/'+id)
+                          .then(response => {
+
+                              Toastr.success(response.data.data,'Mensaje')
+                                $('#listar').DataTable().ajax.reload();
+                              
+                          })
+                          .catch(error => {
+                              if (error.response) {
+                                  Toastr.error(error.response.data.error,''); 
+                              }else{
+                                  Toastr.error('Ocurrió un error: ' + error,'Error');
+                              }
+                          });
+                   }
+                    
+                });
+
+             
+          });
       }
 </script>
 @endsection

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use HepplerDotNet\FlashToastr\Flash;
+use Illuminate\Support\Facades\Auth;
 
 class UsuarioController extends Controller
 {
@@ -165,6 +166,23 @@ class UsuarioController extends Controller
      */
     public function destroy(User $usuario)
     {
-        //
+        try {
+            
+
+            if(Auth::user()->id == $usuario->id){
+
+                throw new \Exception("Usted no puede eliminar sus credenciales", 1);
+                
+            }else{
+
+                $usuario->delete();
+
+                return response()->json(['data' => 'Registro eliminado con éxito'],200);  
+            }
+
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => $e->getMessage()],422);
+        }
     }
 }

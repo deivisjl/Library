@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Administrar\Proveedor;
 
+use App\Compra;
 use App\Proveedor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -149,6 +150,24 @@ class ProveedorController extends Controller
      */
     public function destroy(Proveedor $proveedor)
     {
-        //
+        try {
+            
+            $relacion = Compra::where('proveedor_id','=',$proveedor->id)->first();
+
+            if($relacion){
+
+                throw new \Exception("Este proveedor tiene registros asociados", 1);
+                
+            }else{
+
+                $proveedor->delete();
+
+                return response()->json(['data' => 'Registro eliminado con éxito'],200);  
+            }
+
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => $e->getMessage()],422);
+        }
     }
 }

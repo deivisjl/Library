@@ -27,6 +27,10 @@ Route::group(['middleware' => ['auth','admin']], function() {
 	Route::resource('/marca','Administrar\marca\MarcaController');
 
 	Route::resource('/producto','Administrar\producto\ProductoController');
+
+	Route::resource('/compras', 'Compra\CompraController');
+	Route::get('/compras-producto/{criterio}','Compra\CompraController@producto');
+	Route::get('/compras-obtener/{request}','Compra\CompraController@compra');
 });
 
 Route::group(['middleware' => ['auth','digitador']], function() {});

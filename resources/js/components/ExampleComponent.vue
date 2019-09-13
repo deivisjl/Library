@@ -6,7 +6,11 @@
                     <div class="card-header">Example Component</div>
 
                     <div class="card-body">
-                        I'm an example component.
+                        <autocomplete 
+                            :search="buscar_producto"
+                            :get-result-value="getProducto"
+                            @submit="onSubmitProducto"
+                            ></autocomplete>
                     </div>
                 </div>
             </div>

@@ -11,6 +11,7 @@ window.Vue = require('vue');
 
 window.Swal = require('sweetalert2');
 window.Toastr = require('toastr');
+window.Autocomplete = require('@trevoreyre/autocomplete-vue');
 
 /**
  * The following block of code may be used to automatically register your
@@ -22,8 +23,9 @@ window.Toastr = require('toastr');
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
+Vue.use(Autocomplete);
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('compra-component', require('./components/CompraComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

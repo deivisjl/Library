@@ -69,23 +69,35 @@
           </li>
           @endif
           @if(Auth::user()->esAdministrador() || Auth::user()->esDigitador())
-          <li class="nav-item has-treeview">
+          <li class="nav-item">
+            <a href="{{ route('compras.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-file"></i>
+              <p>Compras</p>
+            </a>
+          </li>
+         <!--  <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon  fas fa-keyboard"></i>
               <p>
-                Menu Digitador
+                Compras
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
+                <a href="{{ route('compras.index') }}" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Registrar compras</p>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="#" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Submenu digitador</p>
+                  <p>Listar compras</p>
                 </a>
               </li>
             </ul>
-          </li>
+          </li> -->
           @endif
           @if(Auth::user()->esAdministrador() || Auth::user()->esVendedor())
           <li class="nav-item has-treeview">

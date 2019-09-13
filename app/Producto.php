@@ -11,4 +11,9 @@ class Producto extends Model
     protected $fillable = [
         'id','nombre','categoria_id','marca_id','stock_minimo','stock_maximo','img_url'
     ];
+
+    public function marca()
+    {
+    	return $this->belongsTo('App\Marca');
+    }
 }

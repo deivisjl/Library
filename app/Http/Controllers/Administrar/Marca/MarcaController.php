@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Administrar\Marca;
 
 use App\Marca;
+use App\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -132,6 +133,24 @@ class MarcaController extends Controller
      */
     public function destroy(Marca $marca)
     {
-        //
+        try {
+            
+            $relacion = Producto::where('marca_id','=',$marca->id)->first();
+
+            if($relacion){
+
+                throw new \Exception("Esta marca tiene registros asociados", 1);
+                
+            }else{
+
+                $marca->delete();
+
+                return response()->json(['data' => 'Registro eliminado con éxito'],200);  
+            }
+
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => $e->getMessage()],422);
+        }
     }
 }

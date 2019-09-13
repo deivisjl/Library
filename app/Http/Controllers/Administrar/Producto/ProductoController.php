@@ -6,6 +6,7 @@ use App\Marca;
 use App\Producto;
 use App\Categoria;
 use Carbon\Carbon;
+use App\DetalleCompra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -186,6 +187,24 @@ class ProductoController extends Controller
      */
     public function destroy(Producto $producto)
     {
-        //
+        try {
+            
+            $relacion = DetalleCompra::where('producto_id','=',$producto->id)->count();
+
+            if($relacion > 0){
+
+                throw new \Exception("Este producto tiene registros asociados", 1);
+                
+            }else{
+
+                $producto->delete();
+
+                return response()->json(['data' => 'Registro eliminado con éxito'],200);  
+            }
+
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => $e->getMessage()],422);
+        }
     }
 }

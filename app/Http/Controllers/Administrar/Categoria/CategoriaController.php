@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Administrar\Categoria;
 
+use App\Producto;
 use App\Categoria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -132,6 +133,26 @@ class CategoriaController extends Controller
      */
     public function destroy(Categoria $categorium)
     {
-        //
+        try {
+            
+            $relacion = Producto::where('categoria_id','=',$categorium->id)->count();
+
+            if($relacion > 0){
+
+                throw new \Exception("Esta categoría tiene registros asociados", 1);
+                
+            }else{
+
+                $categorium->delete();
+
+                return response()->json(['data' => 'Registro eliminado con éxito'],200);  
+            }
+
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => $e->getMessage()],422);
+        }
+
+
     }
 }
