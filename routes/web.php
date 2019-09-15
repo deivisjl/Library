@@ -31,6 +31,10 @@ Route::group(['middleware' => ['auth','admin']], function() {
 	Route::resource('/compras', 'Compra\CompraController');
 	Route::get('/compras-producto/{criterio}','Compra\CompraController@producto');
 	Route::get('/compras-obtener/{request}','Compra\CompraController@compra');
+
+	Route::resource('/ventas', 'Venta\VentaController');
+	Route::get('/ventas-producto/{criterio}','Venta\VentaController@producto');
+	Route::get('/ventas-obtener/{request}','Venta\VentaController@venta');
 });
 
 Route::group(['middleware' => ['auth','digitador']], function() {});

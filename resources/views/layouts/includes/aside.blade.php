@@ -75,6 +75,12 @@
               <p>Compras</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{ route('ventas.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-file"></i>
+              <p>Ventas</p>
+            </a>
+          </li>
          <!--  <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon  fas fa-keyboard"></i>

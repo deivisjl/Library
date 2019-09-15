@@ -58,7 +58,7 @@
                                 @endif
                            </div>
                             <div class="form-group {{ $errors->has('nombre') ? ' is-invalid' : '' }}">
-                                <label for="nombre" class="control-label">Nombre de la producto</label>
+                                <label for="nombre" class="control-label">Nombre del producto</label>
                                 <input type="text" class="form-control {{ $errors->has('nombre') ? ' is-invalid' : '' }}" name="nombre" value="{{ old('nombre') }}">
                                 @if ($errors->has('nombre'))
                                     <span class="invalid-feedback" role="alert">
