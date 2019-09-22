@@ -71,14 +71,14 @@
           @if(Auth::user()->esAdministrador() || Auth::user()->esDigitador())
           <li class="nav-item">
             <a href="{{ route('compras.index') }}" class="nav-link">
-              <i class="nav-icon fas fa-file"></i>
+              <i class="nav-icon fas fa-shopping-bag"></i>              
               <p>Compras</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ route('ventas.index') }}" class="nav-link">
-              <i class="nav-icon fas fa-file"></i>
-              <p>Ventas</p>
+            <a href="{{ route('cliente.index') }}" class="nav-link">
+              <i class="nav-icon far fa-address-card"></i>              
+              <p>Clientes</p>
             </a>
           </li>
          <!--  <li class="nav-item has-treeview">
@@ -106,7 +106,13 @@
           </li> -->
           @endif
           @if(Auth::user()->esAdministrador() || Auth::user()->esVendedor())
-          <li class="nav-item has-treeview">
+          <li class="nav-item">
+            <a href="{{ route('ventas.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-cart-plus"></i>
+              <p>Ventas</p>
+            </a>
+          </li>
+          <!-- <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon  fas fa-shopping-bag"></i>
               <p>
@@ -122,7 +128,15 @@
                 </a>
               </li>
             </ul>
-          </li>
+          </li> -->
+          @endif
+          @if(Auth::user()->esAdministrador())
+            <li class="nav-item">
+              <a href="{{ route('inventario.index') }}" class="nav-link">
+                <i class="nav-icon fas fa-archive"></i>
+                <p>Inventario</p>
+              </a>
+            </li>
           @endif
          <!--  <li class="nav-item">
             <a href="pages/widgets.html" class="nav-link">

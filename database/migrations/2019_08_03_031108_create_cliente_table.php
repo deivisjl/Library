@@ -17,7 +17,7 @@ class CreateClienteTable extends Migration
             $table->bigIncrements('id');
             $table->string('nombres');
             $table->string('apellidos');
-            $table->string('nit')->default('C/F');
+            $table->string('nit',15)->default('C/F')->unique();
             $table->text('direccion');
             $table->timestamps();
         });
