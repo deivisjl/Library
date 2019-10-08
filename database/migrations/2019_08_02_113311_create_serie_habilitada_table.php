@@ -18,7 +18,7 @@ class CreateSerieHabilitadaTable extends Migration
             $table->bigInteger('serie_id')->unsigned();
             $table->bigInteger('desde');
             $table->bigInteger('hasta');
-            $table->integer('activo');
+            $table->integer('activo')->default(1);
             $table->foreign('serie_id')->references('id')->on('serie');
             $table->timestamps();
         });

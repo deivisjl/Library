@@ -53,6 +53,12 @@
                   <p>Producto</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{ route('serie.index') }}" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Serie Factura</p>
+                </a>
+              </li>
               <!-- <li class="nav-item">
                 <a href="./index2.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -104,6 +110,14 @@
               </li>
             </ul>
           </li> -->
+          @endif
+          @if(Auth::user()->esAdministrador())
+          <li class="nav-item">
+            <a href="{{ route('habilitar-facturas.index') }}" class="nav-link">
+              <i class="nav-icon fas fa-file-invoice"></i>
+              <p>Habilitar facturas</p>
+            </a>
+          </li>
           @endif
           @if(Auth::user()->esAdministrador() || Auth::user()->esVendedor())
           <li class="nav-item">

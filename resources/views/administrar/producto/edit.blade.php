@@ -32,7 +32,7 @@
                            @csrf
                            <div class="form-group { $errors->has('categoria') ? 'is-invalid' : ''}">
                                 <label for="" class="control-label">Categoría</label>
-                                <select name="categoria" id="" class="form-control {{ $errors->has('nombre') ? ' is-invalid' : '' }}">
+                                <select name="categoria" id="" class="form-control {{ $errors->has('categoria') ? ' is-invalid' : '' }}">
                                     <option value="0">-- Seleccione una categoría --</option>
                                     @foreach($categorias as $categoria)
                                     <option value="{{ $categoria->id }}"

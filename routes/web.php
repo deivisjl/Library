@@ -30,6 +30,10 @@ Route::group(['middleware' => ['auth','admin']], function() {
 
 	Route::resource('/inventario','Administrar\Inventario\InventarioController');
 
+	Route::resource('/serie','Administrar\Serie\SerieController');
+
+	Route::resource('/habilitar-facturas','Factura\SerieHabilitadaController');
+
 });
 
 Route::group(['middleware' => ['auth','digitador']], function() {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Administrar\Serie;
+namespace App\Http\Controllers\Factura;
 
 use App\Serie;
 use App\SerieHabilitada;
@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use HepplerDotNet\FlashToastr\Flash;
 
-class SerieController extends Controller
+class SerieHabilitadaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class SerieController extends Controller
      */
     public function index()
     {
-        return view('administrar.serie.index');
+        return view('factura.index');
     }
 
     /**
@@ -28,7 +28,9 @@ class SerieController extends Controller
      */
     public function create()
     {
-        return view('administrar.serie.create');
+        $series = Serie::all();
+
+        return view('factura.create',['series' => $series]);
     }
 
     /**
@@ -40,44 +42,51 @@ class SerieController extends Controller
     public function store(Request $request)
     {
         $rules = [
-               'nombre' => 'required|string|max:100',
+               'serie' => 'required|numeric',
+               'desde' => 'required|numeric',
+               'hasta' => 'required|numeric',
             ];            
 
         $this->validate($request, $rules);
 
-        $serie = new Serie();
-        $serie->nombre = $request->get('nombre');
-        $serie->save();        
+        $habilitar = new SerieHabilitada();
+        $habilitar->serie_id = $request->get('serie');
+        $habilitar->desde = $request->get('desde');
+        $habilitar->hasta = $request->get('hasta');
+        $habilitar->save();        
 
         Flash::success('Mensaje','Registro guardado con éxito');
 
-        return redirect('/serie');
+        return redirect('/habilitar-facturas');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Serie  $serie
+     * @param  \App\SerieHabilitada  $serieHabilitada
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request)
     {
-        $ordenadores = array("id","nombre");
+        $ordenadores = array("serie_habilitada.id","serie.nombre","serie_habilitada.desde","serie_habilitada.hasta");
 
         $columna = $request['order'][0]["column"];
         
         $criterio = $request['search']['value'];
 
 
-        $series = DB::table('serie') 
-                ->select('id','nombre') 
+        $facturas = DB::table('serie_habilitada')
+                ->join('serie','serie_habilitada.serie_id','=','serie.id')
+                ->select('serie_habilitada.id','serie.nombre','serie_habilitada.desde','serie_habilitada.hasta','serie_habilitada.activo') 
                 ->where($ordenadores[$columna], 'LIKE', '%' . $criterio . '%')
                 ->orderBy($ordenadores[$columna], $request['order'][0]["dir"])
                 ->skip($request['start'])
                 ->take($request['length'])
                 ->get();
               
-        $count = DB::table('serie')
+        $count = DB::table('serie_habilitada')
+                ->join('serie','serie_habilitada.serie_id','=','serie.id')
+                ->select('serie_habilitada.id','serie.nombre','serie_habilitada.desde','serie_habilitada.hasta')
                 ->where($ordenadores[$columna], 'LIKE', '%' . $criterio . '%')
                 ->count();
                
@@ -85,7 +94,7 @@ class SerieController extends Controller
         'draw' => $request->draw,
         'recordsTotal' => $count,
         'recordsFiltered' => $count,
-        'data' => $series,
+        'data' => $facturas,
         );
 
         return response()->json($data, 200);
@@ -94,63 +103,51 @@ class SerieController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Serie  $serie
+     * @param  \App\SerieHabilitada  $serieHabilitada
      * @return \Illuminate\Http\Response
      */
-    public function edit(Serie $serie)
+    public function edit(SerieHabilitada $habilitar_factura)
     {
-        return view('administrar.serie.edit',['serie' => $serie]);
+        $series = Serie::all();
+
+        return view('factura.edit',['series' => $series,'factura' => $habilitar_factura]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Serie  $serie
+     * @param  \App\SerieHabilitada  $serieHabilitada
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Serie $serie)
+    public function update(Request $request, SerieHabilitada $habilitar_factura)
     {
          $rules = [
-               'nombre' => 'required|string|max:100',
+               'serie' => 'required|numeric',
+               'desde' => 'required|numeric',
+               'hasta' => 'required|numeric',
             ];            
 
         $this->validate($request, $rules);
 
-        $serie->nombre = $request->get('nombre');
-        $serie->save();        
+        $habilitar_factura->serie_id = $request->get('serie');
+        $habilitar_factura->desde = $request->get('desde');
+        $habilitar_factura->hasta = $request->get('hasta');
+        $habilitar_factura->save();        
 
         Flash::success('Mensaje','Registro actualizado con éxito');
 
-        return redirect('/serie');
+        return redirect('/habilitar-facturas');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Serie  $serie
+     * @param  \App\SerieHabilitada  $serieHabilitada
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Serie $serie)
+    public function destroy(SerieHabilitada $habilitar_factura)
     {
-        try {
-            
-            $relacion = SerieHabilitada::where('serie_id','=',$serie->id)->count();
-
-            if($relacion > 0){
-
-                throw new \Exception("Esta serie tiene registros asociados", 1);
-                
-            }else{
-
-                $serie->delete();
-
-                return response()->json(['data' => 'Registro eliminado con éxito'],200);  
-            }
-
-        } catch (\Exception $e) {
-
-            return response()->json(['error' => $e->getMessage()],422);
-        }
+        //
     }
 }
