@@ -6,6 +6,7 @@ use App\Venta;
 use App\Cliente;
 use App\Producto;
 use App\DetalleVenta;
+use App\FacturaEmitida;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -47,8 +48,27 @@ class VentaController extends Controller
 
             DB::beginTransaction();
 
+            $serie_numero = $request['serie']['id'];
+
+            $ultima_factura = FacturaEmitida::where('serie_habilitada_id','=',$serie_numero)
+                                    ->select(DB::raw('MAX(no_factura) as numero'))
+                                    ->first();
+
+            $serie_nombre = $request->serie['nombre'];
+
+            $nuevo_numero = $ultima_factura->numero + 1;
+
+            $factura = $serie_nombre.'-'.$nuevo_numero;
+
+            $registro = FacturaEmitida::create([
+                'serie_habilitada_id' => $request->serie['id'],
+                'no_factura' => $nuevo_numero
+            ]);
+
             $venta = new Venta();
             $venta->cliente_id = $request->get('cliente_id');
+            $venta->no_factura = $factura;
+            $venta->factura_emitida_id = $registro->id;
             $venta->monto = $request->get('monto');
             $venta->save();            
 
@@ -63,7 +83,11 @@ class VentaController extends Controller
 
             DB::commit();
 
-            return response()->json(['data' => 'Venta registrada con éxito'],200);    
+            $venta = Venta::with('detalle_venta','cliente')
+                            ->where('venta.id','=',$venta->id)
+                            ->first();
+
+            return response()->json(['data' => $venta],200);    
         } 
         catch (\Exception $e) 
         {
@@ -137,7 +161,7 @@ class VentaController extends Controller
 
         $ventas = DB::table('venta') 
                 ->join('cliente','venta.cliente_id','=','cliente.id')
-                ->select('venta.id','venta.monto',DB::raw('CONCAT(cliente.nombres," ",cliente.apellidos) as cliente'),'cliente.nit',DB::raw('date_format(venta.created_at,"%d-%m-%Y") as fecha')) 
+                ->select('venta.id','venta.no_factura','venta.monto',DB::raw('CONCAT(cliente.nombres," ",cliente.apellidos) as cliente'),'cliente.nit',DB::raw('date_format(venta.created_at,"%d-%m-%Y") as fecha')) 
                 ->where($ordenadores[$columna], 'LIKE', '%' . $criterio . '%')
                 ->orderBy($ordenadores[$columna], $request['order'][0]["dir"])
                 ->skip($request['start'])

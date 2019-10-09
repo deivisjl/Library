@@ -33,6 +33,7 @@
                       <thead>
                         <tr>
                           <th style="width:10%; text-align: center">No.</th>
+                          <th>Factura</th>
                           <th>Cliente</th> 
                           <th>NIT</th>
                           <th>Monto</th>   
@@ -67,11 +68,12 @@
           
           "columns":[
               {'data': 'id'},
+              {'data': 'no_factura'},
               {'data': 'cliente'},
               {'data': 'nit'},
               {'data': 'monto'}, 
               {'data': 'fecha'},   
-              {'defaultContent':'<a href="" class="borrar badge bg-danger"  data-toggle="tooltip" data-placement="top" title="Borrar registro"><i class="fas fa-trash-alt"></i> Eliminar</a>', "orderable":false}
+              {'defaultContent':'<a href="" class="borrar badge bg-danger"  data-toggle="tooltip" data-placement="top" title="Borrar registro"><i class="fas fa-ban"></i> Anular</a>', "orderable":false}
           ],
           "language": idioma_spanish,
 

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use HepplerDotNet\FlashToastr\Flash;
+use Illuminate\Validation\ValidationException;
 
 class SerieHabilitadaController extends Controller
 {
@@ -49,15 +50,58 @@ class SerieHabilitadaController extends Controller
 
         $this->validate($request, $rules);
 
-        $habilitar = new SerieHabilitada();
-        $habilitar->serie_id = $request->get('serie');
-        $habilitar->desde = $request->get('desde');
-        $habilitar->hasta = $request->get('hasta');
-        $habilitar->save();        
 
-        Flash::success('Mensaje','Registro guardado con éxito');
+        try {
 
-        return redirect('/habilitar-facturas');
+            DB::beginTransaction();
+
+            $habilitados = SerieHabilitada::where('activo','=',1)
+                                            ->where('serie_id','=', $request->get('serie'))
+                                            ->get();
+
+            if($habilitados->count() > 0)
+            {
+                foreach ($habilitados as $rango) 
+                {
+                    $rango->activo = 0;
+                    $rango->save();
+                }
+            }
+            
+            $habilitar = new SerieHabilitada();
+            $habilitar->serie_id = $request->get('serie');
+            $habilitar->desde = $request->get('desde');
+            $habilitar->hasta = $request->get('hasta');
+            $habilitar->save();             
+
+            DB::commit();
+
+            Flash::success('Mensaje','Registro guardado con éxito');
+
+            return redirect('/habilitar-facturas');            
+
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            if($e instanceof ValidationException  )
+            {
+                $errors = $e->validator->errors()->getMessages();
+
+                return redirect()
+                    ->back()
+                    ->withInput($request->input())
+                    ->withErrors($errors);
+            }
+            else
+            {
+                Flash::error('Mensaje', $e->getMessage());
+
+               return redirect()
+                    ->back()
+                    ->withInput($request->input());
+            }
+            
+        }
     }
 
     /**
@@ -149,5 +193,17 @@ class SerieHabilitadaController extends Controller
     public function destroy(SerieHabilitada $habilitar_factura)
     {
         //
+    }
+
+    public function obtener_serie()
+    {
+
+        $series = DB::table('serie_habilitada')
+                            ->join('serie','serie_habilitada.serie_id','=','serie.id')
+                            ->select('serie_habilitada.id','serie.nombre')
+                            ->where('activo','=',1)
+                            ->get();
+
+        return response()->json(['data' => $series,'code' => 200]);
     }
 }
