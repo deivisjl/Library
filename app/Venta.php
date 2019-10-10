@@ -9,7 +9,7 @@ class Venta extends Model
     protected $table = 'venta';
 
     protected $fillable = [
-        'id','cliente_id','monto','no_factura','factura_emitida_id'
+        'id','cliente_id','monto','no_factura','factura_emitida_id','serie'
     ];
 
     public function detalle_venta()

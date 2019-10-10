@@ -18,7 +18,9 @@ class CreateVentaTable extends Migration
             $table->bigInteger('cliente_id')->unsigned();
             $table->bigInteger('factura_emitida_id')->unsigned();
             $table->string('no_factura')->unique();
+            $table->string('serie');
             $table->decimal('monto',5,2);
+            $table->integer('anulada')->default(0);
             $table->foreign('cliente_id')->references('id')->on('cliente');
             $table->foreign('factura_emitida_id')->references('id')->on('factura_emitida');
             $table->timestamps();

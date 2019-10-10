@@ -8,6 +8,7 @@ use App\Producto;
 use Carbon\Carbon;
 use App\DetalleVenta;
 use App\FacturaEmitida;
+use App\SerieHabilitada;
 use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Controller;
 
 class VentaController extends Controller
 {
+    private $array;
     /**
      * Display a listing of the resource.
      *
@@ -56,11 +58,11 @@ class VentaController extends Controller
                                     ->select(DB::raw('MAX(no_factura) as numero'))
                                     ->first();
 
+            $rango = SerieHabilitada::findOrFail($serie_numero);
+
             $serie_nombre = $request->serie['nombre'];
 
             $nuevo_numero = $ultima_factura->numero + 1;
-
-            $factura = $serie_nombre.'-'.$nuevo_numero;
 
             $serie_habilitada = $request->serie['id'];
 
@@ -71,8 +73,9 @@ class VentaController extends Controller
 
             $venta = new Venta();
             $venta->cliente_id = $request->get('cliente_id');
-            $venta->no_factura = $factura;
+            $venta->no_factura = $this->formato_numero($nuevo_numero,$rango->hasta);
             $venta->factura_emitida_id = $registro->id;
+            $venta->serie = $serie_nombre;
             $venta->monto = $request->get('monto');
             $venta->save();            
 
@@ -88,17 +91,23 @@ class VentaController extends Controller
 
             DB::commit();
 
-            $venta = Venta::with('detalle_venta','cliente')
+            $venta = Venta::with('cliente')
                             ->where('venta.id','=',$venta->id)
                             ->first();
+                            
+            $detalle_venta = DB::table('detalle_venta')
+                                ->join('venta','detalle_venta.venta_id','=','venta.id')
+                                ->join('producto','detalle_venta.producto_id','=','producto.id')
+                                ->select('detalle_venta.cantidad','detalle_venta.subtotal','producto.nombre')
+                                ->where('detalle_venta.venta_id','=',$venta->id)
+                                ->get();
 
-            $pdf = \PDF::loadView('venta.factura',['venta' => $venta]);
+            $pdf = \PDF::loadView('venta.factura',['venta' => $venta, 'detalle_venta' => $detalle_venta]);
 
              $pdf->setPaper('letter', 'portrait');
             
              return $pdf->download('factura_'.Carbon::now()->format('dmY_h:m:s').'.pdf');
 
-            // return response()->json(['data' => $venta],200);    
         } 
         catch (\Exception $e) 
         {
@@ -196,16 +205,49 @@ class VentaController extends Controller
 
     public function prueba($id)
     {
-        $venta = Venta::with('detalle_venta','cliente')
+        // $numero = $this->formato_numero(1,10000);
+        // return response()->json(['data' => $numero]);
+
+         $venta = Venta::with('cliente')
                             ->where('venta.id','=',$id)
                             ->first();
+                            
+            $detalle_venta = DB::table('detalle_venta')
+                                ->join('venta','detalle_venta.venta_id','=','venta.id')
+                                ->join('producto','detalle_venta.producto_id','=','producto.id')
+                                ->select('detalle_venta.cantidad','detalle_venta.subtotal','producto.nombre')
+                                ->where('detalle_venta.venta_id','=',$id)
+                                ->get();
 
-        //return view('venta.factura',['venta' => $venta]);
+            $pdf = \PDF::loadView('venta.factura',['venta' => $venta, 'detalle_venta' => $detalle_venta]);
 
-        $pdf = \PDF::loadView('venta.factura',['venta' => $venta]);
+             $pdf->setPaper('letter', 'portrait');
+            
+             return $pdf->download('factura_'.Carbon::now()->format('dmY_h:m:s').'.pdf');
+    }
 
-         $pdf->setPaper('letter', 'portrait');
-        
-         return $pdf->download('factura_'.Carbon::now()->format('dmY_h:m:s').'.pdf');
+    public function formato_numero($numero, $rango)
+    {
+        switch ($rango) {
+            case 10:
+                    return str_pad($numero, 2, "0", STR_PAD_LEFT);
+                break;
+            
+            case 100:
+                    return str_pad($numero, 3, "0", STR_PAD_LEFT);
+                break;
+
+            case 1000:
+                return str_pad($numero, 4, "0", STR_PAD_LEFT);
+                break;
+
+            case 10000:
+                return str_pad($numero, 5, "0", STR_PAD_LEFT);
+                break;
+
+            case 100000:
+                return str_pad($numero, 6, "0", STR_PAD_LEFT);
+                break;
+        }
     }
 }

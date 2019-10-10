@@ -75,7 +75,7 @@
 	</div>
 	<table width="100%">
 		<tr>
-			<th width="70%">Factura No. {{ $venta->no_factura }}</th>
+			<th width="70%">Factura Serie "{{ $venta->serie }}" No. {{ $venta->no_factura }}</th>
 			<th width="10%" class="text-center table-bordered" style="border: 1px solid #007bff;background-color: #007bff; color:#fff;">DIA</th>
 			<th width="10%" class="text-center table-bordered" style="border: 1px solid #007bff; background-color: #007bff; color:#fff;">MES</th>
 			<th width="10%" class="text-center table-bordered" style="border: 1px solid #007bff; background-color: #007bff; color:#fff;">AÑO</th>
@@ -124,10 +124,11 @@
 							</tr>
 						</thead>
 						<tbody>
-							@foreach($venta['detalle_venta'] as $item)
+
+							@foreach($detalle_venta as $index => $item)
 							<tr>
 								<td class="text-center">{{ $item->cantidad }}</td>
-								<td>{{ $item->precio_unitario }}</td>
+								<td>{{ $item->nombre }}</td>
 								<td class="text-center">{{ $item->subtotal }}</td>
 							</tr>
 							@endforeach
