@@ -54,3 +54,5 @@ Route::group(['middleware' => ['auth','vendedor']], function() {
 	Route::get('/ventas-obtener/{request}','Venta\VentaController@venta');
 
 });
+
+Route::get('/prueba/{id}', 'Venta\VentaController@prueba');

@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         HepplerDotNet\FlashToastr\FlashServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -227,6 +228,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Flash' => HepplerDotNet\FlashToastr\Flash::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],
 

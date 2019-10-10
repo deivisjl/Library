@@ -19,6 +19,7 @@ class CreateDetalleVentaTable extends Migration
             $table->bigInteger('producto_id')->unsigned();
             $table->integer('cantidad');
             $table->decimal('precio_unitario');
+            $table->decimal('subtotal');
             $table->foreign('venta_id')->references('id')->on('venta');
             $table->foreign('producto_id')->references('id')->on('producto');
             $table->timestamps();

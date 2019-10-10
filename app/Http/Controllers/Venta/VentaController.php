@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Venta;
 use App\Venta;
 use App\Cliente;
 use App\Producto;
+use Carbon\Carbon;
 use App\DetalleVenta;
 use App\FacturaEmitida;
+use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -60,8 +62,10 @@ class VentaController extends Controller
 
             $factura = $serie_nombre.'-'.$nuevo_numero;
 
+            $serie_habilitada = $request->serie['id'];
+
             $registro = FacturaEmitida::create([
-                'serie_habilitada_id' => $request->serie['id'],
+                'serie_habilitada_id' => $serie_habilitada,
                 'no_factura' => $nuevo_numero
             ]);
 
@@ -78,6 +82,7 @@ class VentaController extends Controller
                 $detalle->producto_id = $value['id'];
                 $detalle->cantidad = $value['cantidad'];
                 $detalle->precio_unitario = $value['precio'];
+                $detalle->subtotal = $value['subtotal'];
                 $detalle->save();
             }
 
@@ -87,7 +92,13 @@ class VentaController extends Controller
                             ->where('venta.id','=',$venta->id)
                             ->first();
 
-            return response()->json(['data' => $venta],200);    
+            $pdf = \PDF::loadView('venta.factura',['venta' => $venta]);
+
+             $pdf->setPaper('letter', 'portrait');
+            
+             return $pdf->download('factura_'.Carbon::now()->format('dmY_h:m:s').'.pdf');
+
+            // return response()->json(['data' => $venta],200);    
         } 
         catch (\Exception $e) 
         {
@@ -181,5 +192,20 @@ class VentaController extends Controller
         );
 
         return response()->json($data, 200);
+    }
+
+    public function prueba($id)
+    {
+        $venta = Venta::with('detalle_venta','cliente')
+                            ->where('venta.id','=',$id)
+                            ->first();
+
+        //return view('venta.factura',['venta' => $venta]);
+
+        $pdf = \PDF::loadView('venta.factura',['venta' => $venta]);
+
+         $pdf->setPaper('letter', 'portrait');
+        
+         return $pdf->download('factura_'.Carbon::now()->format('dmY_h:m:s').'.pdf');
     }
 }

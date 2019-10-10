@@ -176,18 +176,39 @@
                         serie: self.serie,
                     }
 
-                    axios.post('/ventas',data)
-                            .then(response => {
-                                Toastr.success(response.data.data,'Mensaje')
-                                self.vaciarPantalla()
-                            })
-                            .catch(error => {
-                                if (error.response) {
+                    axios({
+                          url: '/ventas',
+                          method: 'POST',
+                          responseType: 'blob', // important
+                          data:data,
+                        }).then((response) => {
+                          Toastr.success('Registro generado con éxito','Mensaje')
+                          self.vaciarPantalla()
+                          
+                          const blob = new Blob([response.data], {type: response.data.type});
+                            const url = window.URL.createObjectURL(blob);
+                            const link = document.createElement('a');
+                            link.href = url;
+                            const contentDisposition = response.headers['content-disposition'];
+                            let fileName = 'unknown';
+                            if (contentDisposition) {
+                                const fileNameMatch = contentDisposition.match(/filename="(.+)"/);
+                                if (fileNameMatch.length === 2)
+                                    fileName = fileNameMatch[1];
+                            }
+                            link.setAttribute('download', fileName);
+                            document.body.appendChild(link);
+                            link.click();
+                            link.remove();
+                            window.URL.revokeObjectURL(url);
+                        }).catch(error => {
+                            if (error.response) {
                                     Toastr.error(error.response.data.error,''); 
                                 }else{
                                     Toastr.error('Ocurrió un error: ' + error,'Error');
                                 }
-                            });
+                        });
+
 
                 }else{
                     Toastr.error('Por favor complete los campos','Mensaje');
