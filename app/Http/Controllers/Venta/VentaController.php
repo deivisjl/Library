@@ -228,26 +228,29 @@ class VentaController extends Controller
 
     public function formato_numero($numero, $rango)
     {
-        switch ($rango) {
-            case 10:
-                    return str_pad($numero, 2, "0", STR_PAD_LEFT);
-                break;
-            
-            case 100:
-                    return str_pad($numero, 3, "0", STR_PAD_LEFT);
-                break;
-
-            case 1000:
-                return str_pad($numero, 4, "0", STR_PAD_LEFT);
-                break;
-
-            case 10000:
-                return str_pad($numero, 5, "0", STR_PAD_LEFT);
-                break;
-
-            case 100000:
-                return str_pad($numero, 6, "0", STR_PAD_LEFT);
-                break;
+        if($rango < 10)
+        {
+            return $numero;
+        }
+        else if($rango > 9 && $rango < 100)
+        {
+            return str_pad($numero, 2, "0", STR_PAD_LEFT);
+        }
+        else if($rango > 99 && $rango < 1000)
+        {
+            return str_pad($numero, 3, "0", STR_PAD_LEFT);
+        }
+        else if($rango > 999 && $rango < 10000)
+        {
+            return str_pad($numero, 4, "0", STR_PAD_LEFT);
+        }
+        else if($rango > 9999 && $rango < 100000)
+        {
+            return str_pad($numero, 5, "0", STR_PAD_LEFT);
+        }
+        else if($rango > 99999 && $rango < 1000000)
+        {
+            return str_pad($numero, 6, "0", STR_PAD_LEFT);
         }
     }
 }

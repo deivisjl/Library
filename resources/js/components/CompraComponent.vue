@@ -273,9 +273,10 @@
                 let self = this
 
                 self.form.factura = ''
-                self.form.proveedor = ''
+                //self.form.proveedor = ''
                 self.productos = []
                 self.total = 0.00
+                
             },
         }
     }

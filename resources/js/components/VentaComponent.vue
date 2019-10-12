@@ -339,10 +339,11 @@
                 let self = this
 
                 self.form.factura = ''
-                self.form.cliente = ''
+                //self.form.cliente = ''
                 self.productos = []
                 self.total = 0.00
                 self.serie = null
+
             },
         }
     }
