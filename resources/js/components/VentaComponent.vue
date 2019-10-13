@@ -202,8 +202,9 @@
                             link.remove();
                             window.URL.revokeObjectURL(url);
                         }).catch(error => {
+
                             if (error.response) {
-                                    Toastr.error(error.response.data.error,''); 
+                                    Toastr.error('Ocurrió un error por favor revise el rango de su factura','Mensaje'); 
                                 }else{
                                     Toastr.error('Ocurrió un error: ' + error,'Error');
                                 }

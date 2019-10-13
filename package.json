@@ -33,9 +33,11 @@
     },
     "dependencies": {
         "@sweetalert2/theme-minimal": "^2.1.0",
+        "apexcharts": "^3.9.0",
         "datatables.net": "^1.10.19",
         "datatables.net-bs4": "^1.10.19",
         "jspdf": "^1.5.3",
+        "vue-apexcharts": "^1.5.0",
         "vue-html2canvas": "^0.0.4",
         "vue-multiselect": "^2.1.6",
         "yarn-install": "^1.0.0"

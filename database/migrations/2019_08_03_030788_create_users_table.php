@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->bigInteger('rol_id')->unsigned();
             $table->foreign('rol_id')->references('id')->on('rol');
             $table->timestamp('email_verified_at')->nullable();
+            $table->dateTime('last_login')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

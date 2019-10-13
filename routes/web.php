@@ -34,6 +34,8 @@ Route::group(['middleware' => ['auth','admin']], function() {
 
 	Route::resource('/habilitar-facturas','Factura\SerieHabilitadaController');
 
+	Route::get('/habilitar-facturas-info','Factura\SerieHabilitadaController@habilitadas');
+
 	Route::get('/series-habilitadas','Factura\SerieHabilitadaController@obtener_serie');
 
 });

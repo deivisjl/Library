@@ -60,9 +60,23 @@ class VentaController extends Controller
 
             $rango = SerieHabilitada::findOrFail($serie_numero);
 
+                if($ultima_factura->numero == $rango->hasta)
+                {
+                    throw new \Exception("No hay facturas disponibles, debe habilitar un nuevo rango de facturas");
+                    
+                }
+
             $serie_nombre = $request->serie['nombre'];
 
-            $nuevo_numero = $ultima_factura->numero + 1;
+            if(!$ultima_factura->numero)
+            {
+                $nuevo_numero = $rango->desde;
+            }
+            else
+            {
+                $nuevo_numero = $ultima_factura->numero + 1;    
+            }
+            
 
             $serie_habilitada = $request->serie['id'];
 

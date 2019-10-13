@@ -28,6 +28,11 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('compra-component', require('./components/CompraComponent.vue').default);
 Vue.component('venta-component', require('./components/VentaComponent.vue').default);
 
+Vue.component('bar-chart-component', require('./components/BarChartComponent.vue').default);
+Vue.component('donut-chart-component', require('./components/DonutChartComponent.vue').default);
+Vue.component('line-chart-component', require('./components/LineChartComponent.vue').default);
+Vue.component('notificacion-factura-component', require('./components/NotificacionFacturaComponent.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

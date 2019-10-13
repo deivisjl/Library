@@ -202,8 +202,22 @@ class SerieHabilitadaController extends Controller
                             ->join('serie','serie_habilitada.serie_id','=','serie.id')
                             ->select('serie_habilitada.id','serie.nombre')
                             ->where('activo','=',1)
+                            ->orderBy('serie.nombre','ASC')
                             ->get();
 
         return response()->json(['data' => $series,'code' => 200]);
+    }
+
+    public function habilitadas()
+    {
+        $series = DB::table('factura_emitida')
+                    ->join('serie_habilitada','factura_emitida.serie_habilitada_id','=','serie_habilitada.id')
+                    ->join('serie','serie_habilitada.serie_id','=','serie.id')
+                    ->select('serie.nombre',DB::raw('max(factura_emitida.no_factura) as emitida'),'serie_habilitada.hasta')
+                    ->where('serie_habilitada.activo','=',1)
+                    ->groupBy('serie.nombre','serie_habilitada.hasta')
+                    ->get();
+
+        return response()->json(['data' => $series,"code" => 200]);
     }
 }
