@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Factura;
 
 use App\Serie;
+use App\FacturaEmitida;
 use App\SerieHabilitada;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -192,7 +193,26 @@ class SerieHabilitadaController extends Controller
      */
     public function destroy(SerieHabilitada $habilitar_factura)
     {
-        //
+        try {
+            
+            $relacion = FacturaEmitida::where('serie_habilitada_id','=',$habilitar_factura->id)->count();
+
+            if($relacion > 0){
+
+                throw new \Exception("Esta serie tiene registros asociados", 1);
+                
+            }else{
+
+                $habilitar_factura->delete();
+
+                return response()->json(['data' => 'Registro eliminado con éxito'],200);  
+            }
+
+        } catch (\Exception $e) {
+
+            return response()->json(['error' => $e->getMessage()],422);
+        }
+
     }
 
     public function obtener_serie()

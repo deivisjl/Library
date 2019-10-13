@@ -82,7 +82,7 @@
           ],
           "language": idioma_spanish,
 
-          "order": [[ 0, "asc" ]]
+          "order": [[ 0, "desc" ]]
 
         });
         obtener_data_editar("#listar tbody",table);
