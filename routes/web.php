@@ -38,6 +38,9 @@ Route::group(['middleware' => ['auth','admin']], function() {
 
 	Route::get('/series-habilitadas','Factura\SerieHabilitadaController@obtener_serie');
 
+	/*Rutas de graficos*/
+	Route::get('/reporte-mensual','Reporte\ReporteController@mensual');
+
 });
 
 Route::group(['middleware' => ['auth','digitador']], function() {

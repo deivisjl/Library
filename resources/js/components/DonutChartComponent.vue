@@ -19,7 +19,7 @@
             	options: {
             		labels: ['Apple', 'Mango', 'Orange', 'Watermelon'],
             		title: {
-                              text: 'Product Trends by Month',
+                              text: 'Ventas por mes',
                               align: 'left'
                           },
             	},
