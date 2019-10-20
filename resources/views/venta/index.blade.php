@@ -33,6 +33,7 @@
                       <thead>
                         <tr>
                           <th style="width:10%; text-align: center">No.</th>
+                          <th>Serie</th>
                           <th>Factura</th>
                           <th>Cliente</th> 
                           <th>NIT</th>
@@ -68,12 +69,13 @@
           
           "columns":[
               {'data': 'id'},
+              {'data': 'serie'},
               {'data': 'no_factura'},
               {'data': 'cliente'},
               {'data': 'nit'},
               {'data': 'monto'}, 
-              {'data': 'fecha'},   
-              {'defaultContent':'<a href="" class="borrar badge bg-danger"  data-toggle="tooltip" data-placement="top" title="Borrar registro"><i class="fas fa-ban"></i> Anular</a>', "orderable":false}
+              {'data': 'fecha',"searchable":false,"orderable":false},   
+              {'defaultContent':'<a href="" class="anular badge bg-danger"  data-toggle="tooltip" data-placement="top" title="Borrar registro"><i class="fas fa-ban"></i> Anular</a>', "orderable":false}
           ],
           "language": idioma_spanish,
 
@@ -84,15 +86,45 @@
     }
 
     var obtener_data_editar = function(tbody,table){
-         $(tbody).on("click","a.editar",function(e){
-          e.preventDefault();
-        var data = table.row($(this).parents("tr")).data();
-        
-        var id = data.id;
+         
+         $(tbody).on("click","a.anular",function(e){
+             e.preventDefault();
+            var data = table.row($(this).parents("tr")).data();
+            
+            var id = data.id;
 
-         //window.location.href = "/categoria/" + id + "/edit";
+             Swal.fire({
+                  title: '¿Está seguro de anular esta venta?',
+                  //text: 'Confirmar',
+                  type: 'question',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Aceptar',
+                  cancelButtonText: 'Cancelar'
+                }).then((result) => {
 
-      });
+                   if (result.value) {
+                      axios.delete('/ventas/'+id)
+                          .then(response => {
+
+                              Toastr.success(response.data.data,'Mensaje')
+                                $('#listar').DataTable().ajax.reload();
+                              
+                          })
+                          .catch(error => {
+                              if (error.response) {
+                                  Toastr.error(error.response.data.error,''); 
+                              }else{
+                                  Toastr.error('Ocurrió un error: ' + error,'Error');
+                              }
+                          });
+                   }
+                    
+                });
+
+             
+          });
       }
 </script>
 @endsection

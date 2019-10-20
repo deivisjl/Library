@@ -6,6 +6,7 @@ use App\Venta;
 use App\Cliente;
 use App\Producto;
 use Carbon\Carbon;
+use App\Inventario;
 use App\DetalleVenta;
 use App\FacturaEmitida;
 use App\SerieHabilitada;
@@ -174,7 +175,32 @@ class VentaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try 
+        {   
+            DB::beginTransaction();
+
+             $registro = Venta::findOrFail($id);   
+             $registro->anulada = 1;
+             $registro->save();
+
+             $detalle = DetalleVenta::where('venta_id','=',$registro->id)->get();
+
+             foreach ($detalle as $producto) {
+                 
+                 $inventario = Inventario::where('producto_id','=',$producto->producto_id)->firstOrFail();
+                 $inventario->stock = $inventario->stock + $producto->cantidad;
+                 $inventario->save();
+             }
+
+             DB::commit();
+
+             return response()->json(['data' => 'La factura se anuló con éxito'],200);  
+        } 
+        catch (\Exception $e) 
+        {
+            DB::rollback();
+            return response()->json(['error' => $e->getMessage()],422);
+        }
     }
 
     public function producto($criterio)
@@ -186,7 +212,7 @@ class VentaController extends Controller
 
     public function venta(Request $request){
 
-        $ordenadores = array("venta.id","cliente.nombres","cliente.nit","venta.monto");
+        $ordenadores = array("venta.id","venta.serie","venta.no_factura","cliente.nombres","cliente.nit","venta.monto");
 
         $columna = $request['order'][0]["column"];
         
@@ -195,7 +221,7 @@ class VentaController extends Controller
 
         $ventas = DB::table('venta') 
                 ->join('cliente','venta.cliente_id','=','cliente.id')
-                ->select('venta.id','venta.no_factura','venta.monto',DB::raw('CONCAT(cliente.nombres," ",cliente.apellidos) as cliente'),'cliente.nit',DB::raw('date_format(venta.created_at,"%d-%m-%Y") as fecha')) 
+                ->select('venta.id','venta.no_factura','venta.serie','venta.monto',DB::raw('CONCAT(cliente.nombres," ",cliente.apellidos) as cliente'),'cliente.nit',DB::raw('date_format(venta.created_at,"%d-%m-%Y") as fecha')) 
                 ->where('venta.anulada','=',0)
                 ->where($ordenadores[$columna], 'LIKE', '%' . $criterio . '%')
                 ->orderBy($ordenadores[$columna], $request['order'][0]["dir"])
