@@ -196,6 +196,7 @@ class VentaController extends Controller
         $ventas = DB::table('venta') 
                 ->join('cliente','venta.cliente_id','=','cliente.id')
                 ->select('venta.id','venta.no_factura','venta.monto',DB::raw('CONCAT(cliente.nombres," ",cliente.apellidos) as cliente'),'cliente.nit',DB::raw('date_format(venta.created_at,"%d-%m-%Y") as fecha')) 
+                ->where('venta.anulada','=',0)
                 ->where($ordenadores[$columna], 'LIKE', '%' . $criterio . '%')
                 ->orderBy($ordenadores[$columna], $request['order'][0]["dir"])
                 ->skip($request['start'])
@@ -204,6 +205,7 @@ class VentaController extends Controller
               
         $count = DB::table('venta') 
                 ->join('cliente','venta.cliente_id','=','cliente.id')
+                ->where('venta.anulada','=',0)
                 ->where($ordenadores[$columna], 'LIKE', '%' . $criterio . '%')
                 ->count();
                
@@ -219,8 +221,6 @@ class VentaController extends Controller
 
     public function prueba($id)
     {
-        // $numero = $this->formato_numero(1,10000);
-        // return response()->json(['data' => $numero]);
 
          $venta = Venta::with('cliente')
                             ->where('venta.id','=',$id)

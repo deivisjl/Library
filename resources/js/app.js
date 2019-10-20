@@ -31,6 +31,7 @@ Vue.component('venta-component', require('./components/VentaComponent.vue').defa
 Vue.component('bar-chart-component', require('./components/BarChartComponent.vue').default);
 Vue.component('donut-chart-component', require('./components/DonutChartComponent.vue').default);
 Vue.component('line-chart-component', require('./components/LineChartComponent.vue').default);
+Vue.component('compra-line-chart-component', require('./components/CompraLinearChartComponent.vue').default);
 Vue.component('notificacion-factura-component', require('./components/NotificacionFacturaComponent.vue').default);
 
 /**

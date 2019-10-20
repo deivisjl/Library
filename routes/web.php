@@ -41,6 +41,12 @@ Route::group(['middleware' => ['auth','admin']], function() {
 	/*Rutas de graficos*/
 	Route::get('/reporte-mensual','Reporte\ReporteController@mensual');
 
+	Route::get('/reporte-mas-vendidos','Reporte\ReporteController@mas_vendidos');
+
+	Route::get('/reporte-compras','Reporte\ReporteController@compras');
+
+	Route::get('/reporte-ventas','Reporte\ReporteController@ventas');
+
 });
 
 Route::group(['middleware' => ['auth','digitador']], function() {

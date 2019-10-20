@@ -17,6 +17,7 @@
             return {
               xaxis:{},
               series:[],
+
                }
         	},
 
@@ -30,7 +31,7 @@
         llenar_line_chart(){
            let self = this
 
-           axios.get('/reporte-ventas')
+           axios.get('/reporte-compras')
                             .then(r => {
 
                                   self.xaxis = r.data.data.etiquetas
@@ -66,10 +67,10 @@
                               curve: 'straight'
                           },
                           title: {
-                              text: 'Ventas por mes',
+                              text: 'Compras por mes',
                               align: 'left'
                           },
-                          colors: ['#00c22f'],
+                          colors: ['#f71010'],
                          yaxis: {
                             title: {
                               text: 'Cifras en Quetzales'

@@ -38,8 +38,11 @@
                     </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-12">
+                  <div class="col-md-6">
                       <line-chart-component></line-chart-component>
+                  </div>
+                  <div class="col-md-6">
+                     <compra-line-chart-component></compra-line-chart-component>
                   </div>
                 </div>
               </div>

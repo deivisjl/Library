@@ -1,6 +1,6 @@
 <template>
 	<div>
-	  <apexchart width="100%" type="bar" :options="options" :series="series"></apexchart>
+	  <apexchart width="100%" type="bar" :options="options_computed" :series="series_computed"></apexchart>
 	</div>
 </template>
 
@@ -16,24 +16,92 @@
 
 		data(){
             return {
+            	xaxis:null,
+
 		      options: {
 		      	title: {
-                              text: 'Product Trends by Month',
+                              text: 'Los 3 productos más vendidos',
                               align: 'left'
                           },
 		        chart: {
 		          id: 'vuechart-example'
 		        },
 		        xaxis: {
-		          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+		          categories: []
 		        }
 		      },
-		      series: [{
-		        name: 'series-1',
-		        data: [30, 40, 45, 50, 49, 60, 70, 91]
-		      }]
+		      series: []
 		    }
         },
+
+        created(){
+        	let self = this
+
+        	self.llenar_bar_chart()
+        },
+
+        methods:{
+
+	        llenar_bar_chart(){
+	           let self = this
+
+	           axios.get('/reporte-mas-vendidos')
+	                            .then(r => {
+	                                  self.xaxis = r.data.data.base.categories
+	                                  self.series = r.data.data.series
+	                                  
+	                            })
+	                            .catch(error => {
+	                                if (error.response) {
+	                                    Toastr.error(error.response.data.error,''); 
+	                                }else{
+	                                    Toastr.error('Ocurrió un error: ' + error,'Error');
+	                                }
+	                            });
+	        }
+	    },
+
+	    computed:{
+	    	options_computed:function(){
+	    		var options = {}
+
+	    		if(!this.xaxis){
+
+	    			return options= {
+				      	title:{
+		                              text: 'Los 3 productos más vendidos',
+		                              align: 'left'
+		                          },
+				        chart:{
+				          id:'vuechart-example'
+				        },
+				        xaxis: {
+				           categories: []
+				        }
+				      }
+	    		}
+	    		else{
+	    			return options = {
+
+				      	title : {
+		                              text : 'Los 3 productos más vendidos',
+		                              align : 'left'
+		                          },
+				        chart : {
+				          id : 'vuechart-example'
+				        },
+				        xaxis : {
+				           categories : this.xaxis
+				        }
+				      }
+	    		}
+	    	},
+
+	    	series_computed:function(){
+
+	    		return this.series
+	    	},
+	    },
 	};
 
 </script>
