@@ -18,7 +18,7 @@ class CreateDetalleCompraTable extends Migration
             $table->bigInteger('producto_id')->unsigned();
             $table->bigInteger('compra_id')->unsigned();
             $table->integer('cantidad');
-            $table->decimal('precio_unitario',5,2);
+            $table->decimal('precio_unitario',7,2);
             $table->foreign('producto_id')->references('id')->on('producto');
             $table->foreign('compra_id')->references('id')->on('compra');
             $table->timestamps();
