@@ -18,6 +18,7 @@ class CreateCompraTable extends Migration
             $table->bigInteger('proveedor_id')->unsigned();
             $table->string('factura_compra_no');
             $table->decimal('monto',7,2);
+            $table->integer('anulada')->default(0);
             $table->foreign('proveedor_id')->references('id')->on('proveedor');
             $table->timestamps();
         });

@@ -36,8 +36,6 @@ Route::group(['middleware' => ['auth','admin']], function() {
 
 	Route::get('/habilitar-facturas-info','Factura\SerieHabilitadaController@habilitadas');
 
-	Route::get('/series-habilitadas','Factura\SerieHabilitadaController@obtener_serie');
-
 	/*Rutas de graficos*/
 	Route::get('/reporte-mensual','Reporte\ReporteController@mensual');
 
@@ -63,6 +61,7 @@ Route::group(['middleware' => ['auth','vendedor']], function() {
 	Route::resource('/ventas', 'Venta\VentaController');
 	Route::get('/ventas-producto/{criterio}','Venta\VentaController@producto');
 	Route::get('/ventas-obtener/{request}','Venta\VentaController@venta');
+	Route::get('/series-habilitadas','Factura\SerieHabilitadaController@obtener_serie');
 
 });
 
