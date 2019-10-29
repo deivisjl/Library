@@ -16,7 +16,7 @@ class CreateInventarioTable extends Migration
         Schema::create('inventario', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('producto_id')->unsigned();
-            $table->integer('stock');
+            $table->integer('stock')->unsigned();
             $table->foreign('producto_id')->references('id')->on('producto');
             $table->timestamps();
         });

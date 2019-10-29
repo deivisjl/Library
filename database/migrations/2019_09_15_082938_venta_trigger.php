@@ -16,7 +16,6 @@ class VentaTrigger extends Migration
         DB::unprepared('
             CREATE TRIGGER Venta_Producto AFTER INSERT ON `detalle_venta` FOR EACH ROW
                 BEGIN
-                    
                     UPDATE inventario set stock = (stock - NEW.cantidad) where producto_id = NEW.producto_id;
 
                 END

@@ -97,6 +97,7 @@ class ReporteController extends Controller
 
         $ventas = DB::table('venta')
                     ->select(DB::raw('SUM(monto) as total'),DB::raw('date_format(created_at,"%m") as fecha'))
+                    ->where('venta.anulada','=',0)
                     ->groupBy(DB::raw('date_format(created_at,"%m")'))      
                     ->get();
 
@@ -136,6 +137,7 @@ class ReporteController extends Controller
     {
         $compras = DB::table('compra')
                     ->select(DB::raw('SUM(monto) as total'),DB::raw('date_format(created_at,"%m") as fecha'))
+                    ->where('compra.anulada','=',0)
                     ->groupBy(DB::raw('date_format(created_at,"%m")'))      
                     ->get();
 

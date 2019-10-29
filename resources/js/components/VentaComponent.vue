@@ -204,7 +204,7 @@
                         }).catch(error => {
 
                             if (error.response) {
-                                    Toastr.error('Ocurrió un error por favor revise el rango de su factura','Mensaje'); 
+                                    Toastr.error('Ocurrió un error por favor revise el rango de su factura y su inventario','Mensaje'); 
                                 }else{
                                     Toastr.error('Ocurrió un error: ' + error,'Error');
                                 }
