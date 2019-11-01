@@ -6,7 +6,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h2><span class="badge badge-libreria">Reporte de compras <small>Reportes</small></span></h2>
+            <h2><span class="badge badge-libreria">Reporte de inventario <small>Reportes</small></span></h2>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
