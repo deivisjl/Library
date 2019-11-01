@@ -74,7 +74,8 @@
 		</div>
 	</div>
 	<div class="row text-center">
-		<div class="col-xs-12"><h4>Reporte de inventario</h4></div>
+		<div class="col-xs-12"><h4>Reporte de inventario al
+			<span>{{ $desde = \Carbon\Carbon::now()->format('d-m-Y') }}</span></h4></div>
 	</div>
 	<table class="table table-bordered">
 		<thead>
