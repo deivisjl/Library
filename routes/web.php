@@ -66,3 +66,12 @@ Route::group(['middleware' => ['auth','vendedor']], function() {
 });
 
 Route::get('/prueba/{id}', 'Venta\VentaController@prueba');
+
+Route::get('/reporte-pdf-ventas','Reporte\ReportePdfController@venta');
+Route::get('/reporte-pdf-venta-obtener/{request}','Reporte\ReportePdfController@venta_obtener');
+
+Route::get('/reporte-pdf-compras','Reporte\ReportePdfController@compra');
+Route::get('/reporte-pdf-compras-obtener/{request}','Reporte\ReportePdfController@compra_obtener');
+
+Route::get('/reporte-pdf-inventario','Reporte\ReportePdfController@inventario');
+Route::get('/reporte-pdf-inventario-obtener','Reporte\ReportePdfController@inventario_obtener');

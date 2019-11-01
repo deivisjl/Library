@@ -158,6 +158,49 @@
               </a>
             </li>
           @endif
+          @if(Auth::user()->esAdministrador())
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="far fa-file nav-icon"></i>
+              <p>
+                Reportes
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/reporte-pdf-ventas" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Reporte de ventas</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/reporte-pdf-compras" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Reporte de compras</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/reporte-pdf-inventario" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Reporte de inventario</p>
+                </a>
+              </li>
+              <!-- <li class="nav-item">
+                <a href="./index2.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Dashboard v2</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="./index3.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Dashboard v3</p>
+                </a>
+              </li> -->
+            </ul>
+          </li>
+          @endif
          <!--  <li class="nav-item">
             <a href="pages/widgets.html" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
